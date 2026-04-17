@@ -1,0 +1,7 @@
+node_modules/
+.env
+dist/
+*.log
+
+# Firebase service account (NUNCA subir esto al repo)
+serviceAccountKey.json
