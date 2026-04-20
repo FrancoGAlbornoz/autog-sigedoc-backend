@@ -28,6 +28,10 @@ const GetTipoTramitesUseCase = require ('./application/use-cases/get-tipos-trami
 const TipoTramiteController = require('./presentation/controllers/tipo-tramite.controller')
 const createTipoTramiteRouter = require('./presentation/routes/tipo-tramite.routes')
 
+// Repositorios y casos de uso para Tramites.
+const PostgresTramiteRepository = require("./infrastructure/adapters/repositories/postgres-tramite.repository")
+
+
 
 const app = express();
 
@@ -38,7 +42,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Para verificar que el servidor está vivo
-// app.get('/health', (_req, res) => res.json({ status: 'ok' }));
+app.get('/health', (_req, res) => res.json({ status: 'ok' }));
 
 
 // Configuración de rutas para Pisos
