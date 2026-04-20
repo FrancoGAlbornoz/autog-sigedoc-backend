@@ -6,7 +6,6 @@ class Tramite {
         id_tipo_tramite,
         apellido_encargado,
         nombre_encargado,
-        nombre_jefe,
         cargo,
         url_pdf,
         telefono,
@@ -19,7 +18,6 @@ class Tramite {
         this.id_tipo_tramite = id_tipo_tramite;
         this.apellido_encargado = apellido_encargado;
         this.nombre_encargado = nombre_encargado;
-        this.nombre_jefe = nombre_jefe;
         this.cargo = cargo;
         this.url_pdf = url_pdf;
         this.telefono = telefono;

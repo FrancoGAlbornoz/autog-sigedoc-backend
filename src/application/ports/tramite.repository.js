@@ -1,17 +1,19 @@
-class TramiteRepository{
-    async create(tramite, detalle){
-        throw error("Method 'create' must be implemented.");
-    }
-    async findAll(){
-        throw error("Method must be implemented.");
-    }
-    async findById(id){
-        throw error("Method must be implemented.");
-    }
-    async updateEstado(id, estado){
-        throw error("Method must be implemented.");
-    }
-    
+class TramiteRepository {
+  async create(tramite, detalles) {
+    throw new Error('Método create() no implementado');
+  }
+
+  async findAll() {
+    throw new Error('Método findAll() no implementado');
+  }
+
+  async findById(id) {
+    throw new Error('Método findById() no implementado');
+  }
+
+  async updateEstado(id, estado) {
+    throw new Error('Método updateEstado() no implementado');
+  }
 }
 
-module.exports = TramiteRepository
+module.exports = TramiteRepository;

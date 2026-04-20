@@ -2,7 +2,7 @@ class TramiteController{
     constructor(createTramiteUseCase){
         this.createTramiteUseCase = createTramiteUseCase
     }
-    async create(req,res){
+    create = async (req, res) => {
         try {
             const {detalles, ...tramiteData} = req.body
 
@@ -13,7 +13,7 @@ class TramiteController{
                 return res.status(400).json({ok: false, message: "Debe existir al menos un usuario/solicitante de tramite."})
             }
 
-            const resultado = await this.createTramiteUseCase.excute({tramite: tramiteData, detalles})
+            const resultado = await this.createTramiteUseCase.execute({tramite: tramiteData, detalles})
 
             return res.status(201).json({ok: true, data: resultado})
 
