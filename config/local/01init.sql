@@ -40,9 +40,17 @@ CREATE TABLE "Tramite" (
   "estado" estado_tramite_enum DEFAULT 'En proceso'
 );
 
+
 CREATE TABLE "Detalle" (
   "id_detalle" SERIAL PRIMARY KEY,
-  "id_tramite" int NOT NULL
+  "id_tramite" int NOT NULL,
+  "apellido" varchar NOT NULL,
+  "nombres" varchar NOT NULL,
+  "cuil" varchar NOT NULL,
+  "mail" varchar NOT NULL,
+  "telefono" varchar,
+  "id_oficina" int NOT NULL,
+  "perfil" varchar
 );
 
 -- Las relaciones se mantienen igual, el SERIAL no afecta a las FK
@@ -66,16 +74,4 @@ ALTER TABLE "Detalle" ADD FOREIGN KEY ("id_tramite") REFERENCES "Tramite" ("id_t
 --   "telefono" varchar,
 --   "email" varchar,
 --   "estado" estado_tramite_enum DEFAULT 'En proceso'
--- );
-
--- CREATE TABLE "Detalle" (
---   "id_detalle" SERIAL PRIMARY KEY,
---   "id_tramite" int NOT NULL,
---   "apellido" varchar NOT NULL,
---   "nombres" varchar NOT NULL,
---   "cuil" varchar NOT NULL,
---   "mail" varchar NOT NULL,
---   "telefono" varchar,
---   "id_oficina" int NOT NULL,
---   "perfil" varchar
 -- );

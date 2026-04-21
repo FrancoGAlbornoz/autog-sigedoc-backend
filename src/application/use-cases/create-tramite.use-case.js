@@ -1,16 +1,20 @@
-class CreateTramiteUseCase{
-    constructor(tramiteRepository){
-        this.tramiteRepository = tramiteRepository
+
+class CreateTramiteUseCase {
+  constructor(tramiteRepository) {
+    this.tramiteRepository = tramiteRepository;
+  }
+
+  async execute({ tramite, detalles }) {
+    // Validar que venga al menos un detalle
+    if (!detalles || detalles.length === 0) {
+      throw new Error('Debe incluir al menos un solicitante en el trámite');
     }
-    async excute({tramite,detalles}){
-        if(!detalles || detalles.length === 0){
-            throw new Error("Debe existir al menos un usuario/solicitante de tramite.")
-        }
-        const resultado = await this.tramiteRepository.create(tramite,detalles)
-        return resultado
-    }
-    
+
+    // Guardar en la DB y devolver el trámite creado con surss detalles
+    const resultado = await this.tramiteRepository.create(tramite, detalles);
+    return resultado;
+  }
 }
 
-module.exports = CreateTramiteUseCase
 
+module.exports = CreateTramiteUseCase 
