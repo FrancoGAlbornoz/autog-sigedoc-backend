@@ -34,6 +34,10 @@ const CreateTramiteUseCase = require('./application/use-cases/create-tramite.use
 const TramiteController = require('./presentation/controllers/tramite.controller');
 const createTramiteRouter = require('./presentation/routes/tramite.routes');
 
+const GetAllTramitesUseCase = require ('./application/use-cases/get-all-tramites.use-case')
+const GetTramiteByIdUseCase = require ('./application/use-cases/get-tramite-by-id.use-case')
+
+
 
 
 const app = express();
@@ -81,7 +85,12 @@ app.use('/api/tipos-tramite', createTipoTramiteRouter(tipoTramiteController));
 // Configuración de rutas para Tramites
 const tramiteRepository = new PostgresTramiteRepository(pool);
 const createTramiteUseCase = new CreateTramiteUseCase(tramiteRepository);
-const tramiteController = new TramiteController(createTramiteUseCase);
+const getAllTramitesUseCase = new GetAllTramitesUseCase(tramiteRepository)
+const getTramiteByIdUseCase = new GetTramiteByIdUseCase(tramiteRepository)
+const tramiteController = new TramiteController(createTramiteUseCase, getAllTramitesUseCase, getTramiteByIdUseCase);
+
+
+
 
 app.use('/api/tramites', createTramiteRouter(tramiteController));
 
