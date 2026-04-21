@@ -1,7 +1,7 @@
 require('dotenv').config();
 const { Pool } = require('pg');
 
-
+// Configuración de la conexión a PostgreSQL usando variables de entorno
 const pool = new Pool({
   host: process.env.DB_HOST,
   port: Number(process.env.DB_PORT),
@@ -9,7 +9,7 @@ const pool = new Pool({
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
 });
-
+// Eventos para monitorear la conexión
 pool.on('connect', () => {
   console.log('📦 Conectado a PostgreSQL');
 });
