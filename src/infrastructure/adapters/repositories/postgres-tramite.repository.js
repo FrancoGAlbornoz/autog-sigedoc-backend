@@ -81,3 +81,4 @@ class PostgresTramiteRepository extends TramiteRepository{
 }
 
 module.exports = PostgresTramiteRepository
+
