@@ -3,7 +3,7 @@ class OficinaController{
         this.getOficinasUseCase = getOficinasUseCase;
     }
 
-    getAll = async (_req, res) => {
+    getAll = async (_req, res, next) => {
         try {
             const oficinas = await this.getOficinasUseCase.execute();
             return res.status(200).json({
@@ -11,11 +11,8 @@ class OficinaController{
                 data: oficinas
             });
         } catch (error) {
-            console.error('❌ Error al obtener oficinas:', error);
-            return res.status(500).json({
-                ok: false,
-                message: 'Error interno del servidor'
-            });
+            next(error);
+            console.error("Error al obtener las oficinas", error);
         }   
     }
 }

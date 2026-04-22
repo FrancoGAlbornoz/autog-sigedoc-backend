@@ -1,6 +1,9 @@
 const express = require('express');
 const cors = require('cors');
 
+// Middleware para manejo de errores
+const errorHandler = require('./presentation/middlewares/error.middleware');
+
 // Repositorios y casos de uso para Pisos
 const pool = require('./infrastructure/storage/db/postgres');
 const PostgresPisoRepository = require('./infrastructure/adapters/repositories/postgres-piso.repository');
@@ -37,7 +40,9 @@ const createTramiteRouter = require('./presentation/routes/tramite.routes');
 const GetAllTramitesUseCase = require ('./application/use-cases/get-all-tramites.use-case')
 const GetTramiteByIdUseCase = require ('./application/use-cases/get-tramite-by-id.use-case')
 
-
+// Caso de uso para generar PDF
+const PdfGeneratorService = require('./infrastructure/pdf/pdf-generator.service');
+const GenerarPdfUseCase = require('./application/use-cases/generar-pdf.use-case');
 
 
 const app = express();
@@ -83,16 +88,25 @@ app.use('/api/tipos-tramite', createTipoTramiteRouter(tipoTramiteController));
 
 
 // Configuración de rutas para Tramites
+// El repositorio de Tramites se necesita tanto para los casos de uso de gestión de trámites como para la generación de PDFs, por eso se instancia aquí.
 const tramiteRepository = new PostgresTramiteRepository(pool);
+
+// Configuración del caso de uso para generar PDF
+const pdfGeneratorService = new PdfGeneratorService();
+const generarPdfUseCase = new GenerarPdfUseCase(tramiteRepository, pdfGeneratorService);
+
 const createTramiteUseCase = new CreateTramiteUseCase(tramiteRepository);
 const getAllTramitesUseCase = new GetAllTramitesUseCase(tramiteRepository)
 const getTramiteByIdUseCase = new GetTramiteByIdUseCase(tramiteRepository)
-const tramiteController = new TramiteController(createTramiteUseCase, getAllTramitesUseCase, getTramiteByIdUseCase);
+const tramiteController = new TramiteController(createTramiteUseCase, getAllTramitesUseCase, getTramiteByIdUseCase, generarPdfUseCase);
+
+
 
 
 
 
 app.use('/api/tramites', createTramiteRouter(tramiteController));
 
-
+// Middleware de manejo de errores (debe ir al final, después de todas las rutas)
+app.use(errorHandler);
 module.exports = app;

@@ -3,7 +3,7 @@ class TipoTramiteController {
     this.getTiposTramiteUseCase = getTiposTramiteUseCase;
   }
 
-  getAll = async (_req, res) => {
+  getAll = async (_req, res, next) => {
     try {
       const tipos = await this.getTiposTramiteUseCase.execute();
 
@@ -12,12 +12,8 @@ class TipoTramiteController {
         data: tipos,
       });
     } catch (error) {
-      console.error('❌ Error al obtener tipos de trámite:', error);
-
-      return res.status(500).json({
-        ok: false,
-        message: 'Error interno del servidor',
-      });
+      next(error);
+      console.error("Error al obtener los tipos de tramite", error);
     }
   };
 }

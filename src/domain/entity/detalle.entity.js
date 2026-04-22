@@ -1,6 +1,9 @@
+const Email = require('../value-objects/Email');
+const Cuil = require('../value-objects/Cuil');
+
 class Detalle {
   constructor({
-    id,
+    id_detalle,
     id_tramite,
     apellido,
     nombres,
@@ -8,16 +11,18 @@ class Detalle {
     mail,
     telefono,
     id_oficina,
+    nombre_oficina,  // ← agregá este
     perfil,
   }) {
-    this.id = id;
+    this.id_detalle = id_detalle;
     this.id_tramite = id_tramite;
     this.apellido = apellido;
     this.nombres = nombres;
-    this.cuil = cuil;
-    this.mail = mail;
+    this.cuil = new Cuil(cuil).toString();
+    this.mail = new Email(mail).toString();
     this.telefono = telefono || null;
     this.id_oficina = id_oficina;
+    this.nombre_oficina = nombre_oficina || null;  // ← y este
     this.perfil = perfil || null;
   }
 }

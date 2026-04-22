@@ -3,7 +3,7 @@ class PisoController {
     this.getPisosUseCase = getPisosUseCase;
   }
 
-  getAll = async (_req, res) => {
+  getAll = async (_req, res, next) => {
     try {
       const pisos = await this.getPisosUseCase.execute();
 
@@ -12,12 +12,8 @@ class PisoController {
         data: pisos,
       });
     } catch (error) {
-      console.error('❌ Error al obtener pisos:', error);
-
-      return res.status(500).json({
-        ok: false,
-        message: 'Error interno del servidor',
-      });
+      next(error);
+      console.error("Error al obtener los pisos", error);
     }
   };
 }

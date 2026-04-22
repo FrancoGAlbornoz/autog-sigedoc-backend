@@ -12,6 +12,7 @@ services:
     volumes:
       # Montamos el script SQL para que se ejecute al inicializar
       - ./01init.sql:/docker-entrypoint-initdb.d/01init.sql
+      - ./02seed.sql:/docker-entrypoint-initdb.d/02seed.sql
       # Volumen para persistencia de datos (opcional pero recomendado)
       - postgres_data:/var/lib/postgresql/data
 

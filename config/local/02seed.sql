@@ -1,4 +1,4 @@
-// Seed o semilla inicial para poblar las tablas con datos de ejemplo
+--Seed o semilla inicial para poblar las tablas con datos de ejemplo
 
 INSERT INTO "Piso" (nombre_piso) VALUES ('Planta Baja'), ('Piso 1'), ('Piso 2');
 
