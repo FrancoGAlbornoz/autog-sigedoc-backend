@@ -1,9 +1,31 @@
 const express = require('express');
 
-function createOficinaRouter(oficinaController) {
+function createOficinaRouter(controller) {
   const router = express.Router();
 
-  router.get('/', oficinaController.getAll);
+  /**
+   * @swagger
+   * /api/oficinas:
+   *   get:
+   *     summary: Obtener todas las oficinas
+   *     tags: [Oficinas]
+   *     responses:
+   *       200:
+   *         description: Lista de oficinas
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                 ok:
+   *                   type: boolean
+   *                   example: true
+   *                 data:
+   *                   type: array
+   *                   items:
+   *                     $ref: '#/components/schemas/Oficina'
+   */
+  router.get('/', controller.getAll);
 
   return router;
 }

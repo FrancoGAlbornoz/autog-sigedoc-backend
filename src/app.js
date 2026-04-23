@@ -1,5 +1,8 @@
 const express = require('express');
 const cors = require('cors');
+// Configuración de Swagger
+const swaggerUi = require('swagger-ui-express');
+const swaggerSpec = require('./swagger.config');
 
 // Middleware para manejo de errores
 const errorHandler = require('./presentation/middlewares/error.middleware');
@@ -55,7 +58,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Para verificar que el servidor está vivo
 app.get('/health', (_req, res) => res.json({ status: 'ok' }));
-
+app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // Configuración de rutas para Pisos
 const pisoRepository = new PostgresPisoRepository(pool);

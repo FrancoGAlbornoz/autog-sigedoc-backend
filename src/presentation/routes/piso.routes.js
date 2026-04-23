@@ -1,9 +1,31 @@
 const express = require('express');
 
-function createPisoRouter(pisoController) {
+function createPisoRouter(controller) {
   const router = express.Router();
 
-  router.get('/', pisoController.getAll);
+  /**
+   * @swagger
+   * /api/pisos:
+   *   get:
+   *     summary: Obtener todos los pisos
+   *     tags: [Pisos]
+   *     responses:
+   *       200:
+   *         description: Lista de pisos
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                 ok:
+   *                   type: boolean
+   *                   example: true
+   *                 data:
+   *                   type: array
+   *                   items:
+   *                     $ref: '#/components/schemas/Piso'
+   */
+  router.get('/', controller.getAll);
 
   return router;
 }
