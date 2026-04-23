@@ -43,6 +43,9 @@ const createTramiteRouter = require('./presentation/routes/tramite.routes');
 const GetAllTramitesUseCase = require ('./application/use-cases/get-all-tramites.use-case')
 const GetTramiteByIdUseCase = require ('./application/use-cases/get-tramite-by-id.use-case')
 
+const SubirDocumentoFirmadoUseCase = require('./application/use-cases/subir-documento-firmado.use-case');
+const FirebaseStorageService = require('./infrastructure/storage/firebase-storage.service');
+
 // Caso de uso para generar PDF
 const PdfGeneratorService = require('./infrastructure/pdf/pdf-generator.service');
 const GenerarPdfUseCase = require('./application/use-cases/generar-pdf.use-case');
@@ -101,7 +104,9 @@ const generarPdfUseCase = new GenerarPdfUseCase(tramiteRepository, pdfGeneratorS
 const createTramiteUseCase = new CreateTramiteUseCase(tramiteRepository);
 const getAllTramitesUseCase = new GetAllTramitesUseCase(tramiteRepository)
 const getTramiteByIdUseCase = new GetTramiteByIdUseCase(tramiteRepository)
-const tramiteController = new TramiteController(createTramiteUseCase, getAllTramitesUseCase, getTramiteByIdUseCase, generarPdfUseCase);
+const firebaseStorageService = new FirebaseStorageService();
+const subirDocumentoFirmadoUseCase = new SubirDocumentoFirmadoUseCase(tramiteRepository, firebaseStorageService);
+const tramiteController = new TramiteController(createTramiteUseCase, getAllTramitesUseCase, getTramiteByIdUseCase, generarPdfUseCase, subirDocumentoFirmadoUseCase);
 
 
 

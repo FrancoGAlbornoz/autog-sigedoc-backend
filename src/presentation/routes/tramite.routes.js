@@ -1,4 +1,6 @@
 const express = require('express');
+const multer = require('multer');
+const { validarCrearTramite } = require('../middlewares/validar-tramite.middleware');
 
 function createTramiteRouter(controller) {
   const router = express.Router();
@@ -81,7 +83,7 @@ function createTramiteRouter(controller) {
    *       500:
    *         description: Error interno del servidor
    */
-  router.post('/', controller.create);
+  router.post('/', validarCrearTramite, controller.create);
 
   /**
    * @swagger
@@ -155,6 +157,52 @@ function createTramiteRouter(controller) {
    *         description: Trámite no encontrado
    */
   router.get('/:id/pdf', controller.generarPdf);
+
+  const upload = multer({
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 5 * 1024 * 1024 }, // 5 MB
+  fileFilter: (_req, file, cb) => {
+    const tiposPermitidos = ['application/pdf', 'image/jpeg', 'image/png'];
+    if (tiposPermitidos.includes(file.mimetype)) {
+      cb(null, true);
+    } else {
+      cb(new Error('Formato no permitido. Use PDF, JPG o PNG'));
+    }
+  },
+});
+
+/**
+ * @swagger
+ * /api/tramites/{id}/subir-firmado:
+ *   post:
+ *     summary: Subir el documento firmado por el jefe
+ *     tags: [Trámites]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         example: 1
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               documento:
+ *                 type: string
+ *                 format: binary
+ *     responses:
+ *       200:
+ *         description: Documento subido y estado actualizado a Enviado
+ *       400:
+ *         description: Archivo no adjunto o formato inválido
+ *       404:
+ *         description: Trámite no encontrado
+ */
+router.post('/:id/subir-firmado', upload.single('documento'), controller.subirDocumentoFirmado);
 
   return router;
 }
