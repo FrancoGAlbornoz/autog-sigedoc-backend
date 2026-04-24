@@ -96,32 +96,32 @@ class PostgresTramiteRepository extends TramiteRepository {
   }
 
   async findById(id) {
-  const tramiteQuery = `
+    const tramiteQuery = `
     SELECT t.*, o.nombre_oficina
     FROM "Tramite" t
     JOIN "Oficina" o ON t.id_oficina = o.id_oficina
     WHERE t.id_tramite = $1
   `;
-  const detalleQuery = `
+    const detalleQuery = `
     SELECT d.*, o.nombre_oficina
     FROM "Detalle" d
     JOIN "Oficina" o ON d.id_oficina = o.id_oficina
     WHERE d.id_tramite = $1
   `;
 
-  const [tramiteResult, detalleResult] = await Promise.all([
-    this.db.query(tramiteQuery, [id]),
-    this.db.query(detalleQuery, [id]),
-  ]);
+    const [tramiteResult, detalleResult] = await Promise.all([
+      this.db.query(tramiteQuery, [id]),
+      this.db.query(detalleQuery, [id]),
+    ]);
 
-  if (tramiteResult.rows.length === 0) return null;
+    if (tramiteResult.rows.length === 0) return null;
 
-  return {
-    tramite: new Tramite(tramiteResult.rows[0]),
-    detalles: detalleResult.rows.map((row) => new Detalle(row)),
-    nombreOficina: tramiteResult.rows[0].nombre_oficina,
-  };
-}
+    return {
+      tramite: new Tramite(tramiteResult.rows[0]),
+      detalles: detalleResult.rows.map((row) => new Detalle(row)),
+      nombreOficina: tramiteResult.rows[0].nombre_oficina,
+    };
+  }
 
   async updateEstado(id, estado) {
     const query = `

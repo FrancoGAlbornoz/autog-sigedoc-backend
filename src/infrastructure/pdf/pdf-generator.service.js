@@ -25,8 +25,8 @@ class PdfGeneratorService {
 
     const fecha = () => {
       const d = new Date();
-      const meses = ['enero','febrero','marzo','abril','mayo','junio',
-                     'julio','agosto','septiembre','octubre','noviembre','diciembre'];
+      const meses = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
+        'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
       return `San Miguel de Tucumán, ${d.getDate()} de ${meses[d.getMonth()]} del ${d.getFullYear()}`;
     };
 
@@ -63,14 +63,14 @@ class PdfGeneratorService {
 
     // ── Tabla ─────────────────────────────────────────────────
     const columnas = [
-  { header: 'Apellido',  x: margen,       ancho: 70  },
-  { header: 'Nombres',   x: margen + 70,  ancho: 70  },
-  { header: 'CUIL',      x: margen + 140, ancho: 80  },
-  { header: 'Mail',      x: margen + 220, ancho: 105 },
-  { header: 'Teléfono',  x: margen + 325, ancho: 60  },
-  { header: 'Oficina',   x: margen + 385, ancho: 75  },
-  { header: 'Perfil',    x: margen + 460, ancho: 55  },
-];
+      { header: 'Apellido', x: margen, ancho: 70 },
+      { header: 'Nombres', x: margen + 70, ancho: 70 },
+      { header: 'CUIL', x: margen + 140, ancho: 80 },
+      { header: 'Mail', x: margen + 220, ancho: 105 },
+      { header: 'Teléfono', x: margen + 325, ancho: 60 },
+      { header: 'Oficina', x: margen + 385, ancho: 75 },
+      { header: 'Perfil', x: margen + 460, ancho: 55 },
+    ];
 
     const filaAltura = 20;
 
