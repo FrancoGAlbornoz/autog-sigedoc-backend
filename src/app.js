@@ -30,7 +30,7 @@ const createSistemaExternoRouter = require('./presentation/routes/sistema-extern
 
 // Repositorios y casos de uso para Tipo de Tramites.
 const PostgresTipoTramiteRepository = require("./infrastructure/adapters/repositories/postgres-tipo-tramite.repository")
-const GetTipoTramitesUseCase = require ('./application/use-cases/get-tipos-tramite.use-case')
+const GetTipoTramitesUseCase = require('./application/use-cases/get-tipos-tramite.use-case')
 const TipoTramiteController = require('./presentation/controllers/tipo-tramite.controller')
 const createTipoTramiteRouter = require('./presentation/routes/tipo-tramite.routes')
 
@@ -40,11 +40,13 @@ const CreateTramiteUseCase = require('./application/use-cases/create-tramite.use
 const TramiteController = require('./presentation/controllers/tramite.controller');
 const createTramiteRouter = require('./presentation/routes/tramite.routes');
 
-const GetAllTramitesUseCase = require ('./application/use-cases/get-all-tramites.use-case')
-const GetTramiteByIdUseCase = require ('./application/use-cases/get-tramite-by-id.use-case')
+const GetAllTramitesUseCase = require('./application/use-cases/get-all-tramites.use-case')
+const GetTramiteByIdUseCase = require('./application/use-cases/get-tramite-by-id.use-case')
 
 const SubirDocumentoFirmadoUseCase = require('./application/use-cases/subir-documento-firmado.use-case');
 const FirebaseStorageService = require('./infrastructure/storage/firebase-storage.service');
+
+const GetTramitesByEstadoUseCase = require('./application/use-cases/get-tramites-by-estado.use-case');
 
 // Caso de uso para generar PDF
 const PdfGeneratorService = require('./infrastructure/pdf/pdf-generator.service');
@@ -106,7 +108,8 @@ const getAllTramitesUseCase = new GetAllTramitesUseCase(tramiteRepository)
 const getTramiteByIdUseCase = new GetTramiteByIdUseCase(tramiteRepository)
 const firebaseStorageService = new FirebaseStorageService();
 const subirDocumentoFirmadoUseCase = new SubirDocumentoFirmadoUseCase(tramiteRepository, firebaseStorageService);
-const tramiteController = new TramiteController(createTramiteUseCase, getAllTramitesUseCase, getTramiteByIdUseCase, generarPdfUseCase, subirDocumentoFirmadoUseCase);
+const getTramitesByEstadoUseCase = new GetTramitesByEstadoUseCase(tramiteRepository);
+const tramiteController = new TramiteController(createTramiteUseCase, getAllTramitesUseCase, getTramiteByIdUseCase, generarPdfUseCase, subirDocumentoFirmadoUseCase, getTramitesByEstadoUseCase);
 
 
 

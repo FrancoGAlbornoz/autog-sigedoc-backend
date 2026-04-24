@@ -10,7 +10,7 @@ class SubirDocumentoFirmadoUseCase {
     // Verificar que el trámite existe
     const resultado = await this.tramiteRepository.findById(tramiteId);
     if (!resultado) {
-      throw new Error(`Trámite con id ${tramiteId} no encontrado`);
+      throw new Error(`Trámite con número ${tramiteId} no encontrado`);
     }
 
     // Subir el archivo a Firebase Storage

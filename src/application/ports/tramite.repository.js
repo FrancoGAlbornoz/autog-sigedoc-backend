@@ -16,8 +16,14 @@ class TramiteRepository {
   }
 
   async updateEstadoYUrl(id, estado, url) {
-  throw new Error('Método updateEstadoYUrl() no implementado');
-}
+    throw new Error('Método updateEstadoYUrl() no implementado');
+  }
+
+
+  async findByEstado(estado) {
+    throw new Error('Método findByEstado() no implementado');
+  }
+
 }
 
 module.exports = TramiteRepository;
