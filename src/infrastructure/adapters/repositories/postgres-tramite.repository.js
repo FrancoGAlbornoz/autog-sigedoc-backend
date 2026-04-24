@@ -132,6 +132,17 @@ class PostgresTramiteRepository extends TramiteRepository {
     const result = await this.db.query(query, [estado, id]);
     return new Tramite(result.rows[0]);
   }
+
+  async updateEstadoYUrl(id, estado, url) {
+  const query = `
+    UPDATE "Tramite" 
+    SET estado = $1, url_pdf = $2
+    WHERE id_tramite = $3
+    RETURNING *
+  `;
+  const result = await this.db.query(query, [estado, url, id]);
+  return new Tramite(result.rows[0]);
+}
 }
 
 module.exports = PostgresTramiteRepository
