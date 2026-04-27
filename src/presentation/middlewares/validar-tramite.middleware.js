@@ -64,12 +64,6 @@ function validarCrearTramite(req, res, next) {
       });
     }
 
-    if (!detalle.id_oficina) {
-      return res.status(400).json({
-        ok: false,
-        message: `El detalle ${i + 1} debe tener id_oficina`,
-      });
-    }
   }
 
   next();

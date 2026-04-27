@@ -27,6 +27,25 @@ function createOficinaRouter(controller) {
    */
   router.get('/', controller.getAll);
 
+  /**
+   * @swagger
+   * /api/pisos/{idPiso}/oficinas:
+   *   get:
+   *     summary: Obtener oficinas por piso
+   *     tags: [Oficinas]
+   *     parameters:
+   *       - in: path
+   *         name: idPiso
+   *         required: true
+   *         schema:
+   *           type: integer
+   *         example: 1
+   *     responses:
+   *       200:
+   *         description: Lista de oficinas del piso
+   */
+  router.get('/piso/:idPiso', controller.getByPiso);
+
   return router;
 }
 

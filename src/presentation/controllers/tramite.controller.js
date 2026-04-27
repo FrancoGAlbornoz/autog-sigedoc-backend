@@ -5,7 +5,7 @@ class TramiteController {
     getTramiteByIdUseCase,
     generarPdfUseCase,
     subirDocumentoFirmadoUseCase,
-    getTramitesByEstadoUseCase
+    getTramitesByEstadoUseCase,
   ) {
     this.createTramiteUseCase = createTramiteUseCase;
     this.getAllTramitesUseCase = getAllTramitesUseCase;
@@ -18,22 +18,25 @@ class TramiteController {
   create = async (req, res, next) => {
     try {
       const { detalles, ...tramiteData } = req.body;
-      const resultado = await this.createTramiteUseCase.execute({ tramite: tramiteData, detalles });
+      const resultado = await this.createTramiteUseCase.execute({
+        tramite: tramiteData,
+        detalles,
+      });
       return res.status(201).json({ ok: true, data: resultado });
     } catch (error) {
       next(error);
     }
-  }
+  };
 
   getAll = async (req, res, next) => {
     try {
       const { estado } = req.query;
 
-      let tramites
+      let tramites;
       if (estado) {
-        tramites = await this.tramiteRepository.findByEstado(estado)
+        tramites = await this.getTramitesByEstadoUseCase.execute(estado); // ← este
       } else {
-        tramites = await this.getAllTramitesUseCase.execute()
+        tramites = await this.getAllTramitesUseCase.execute();
       }
       return res.status(200).json({ ok: true, data: tramites });
     } catch (error) {
@@ -79,8 +82,9 @@ class TramiteController {
       if (!req.file) {
         return res.status(400).json({
           ok: false,
-          message: 'Debe adjuntar un archivo',
-        }); v
+          message: "Debe adjuntar un archivo",
+        });
+        v;
       }
 
       const resultado = await this.subirDocumentoFirmadoUseCase.execute({
@@ -92,13 +96,13 @@ class TramiteController {
 
       return res.status(200).json({
         ok: true,
-        message: 'Documento firmado subido correctamente',
+        message: "Documento firmado subido correctamente",
         data: resultado,
       });
     } catch (error) {
       next(error);
     }
-  }
+  };
 }
 
 module.exports = TramiteController;

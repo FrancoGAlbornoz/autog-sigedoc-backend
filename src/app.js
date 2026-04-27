@@ -18,6 +18,7 @@ const createPisoRouter = require('./presentation/routes/piso.routes');
 
 const PostgresOficinaRepository = require('./infrastructure/adapters/repositories/postgres-oficina.repository')
 const GetOficinasUseCase = require('./application/use-cases/get-oficinas.use-case')
+const GetOficinasByPisoUseCase = require('./application/use-cases/get-oficinas-by-piso.use-case');
 const OficinaController = require('./presentation/controllers/oficina.controller')
 const createOficinaRouter = require('./presentation/routes/oficina.routes')
 
@@ -75,7 +76,8 @@ app.use('/api/pisos', createPisoRouter(pisoController));
 // Configuración de rutas para Oficinas
 const oficinaRepository = new PostgresOficinaRepository(pool);
 const getOficinasUseCase = new GetOficinasUseCase(oficinaRepository);
-const oficinaController = new OficinaController(getOficinasUseCase);
+const getOficinasByPisoUseCase = new GetOficinasByPisoUseCase(oficinaRepository);
+const oficinaController = new OficinaController(getOficinasUseCase, getOficinasByPisoUseCase);
 
 app.use('/api/oficinas', createOficinaRouter(oficinaController));
 

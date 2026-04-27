@@ -10,8 +10,13 @@ class CreateTramiteUseCase {
       throw new Error('Debe incluir al menos un solicitante en el trámite');
     }
 
-    // Guardar en la DB y devolver el trámite creado con surss detalles
-    const resultado = await this.tramiteRepository.create(tramite, detalles);
+    const detallesConOficina = detalles.map((detalle) => ({
+    ...detalle,
+    id_oficina: tramite.id_oficina,
+  }));
+
+    // Guardar en la DB y devolver el trámite creado con sus detalles
+    const resultado = await this.tramiteRepository.create(tramite, detallesConOficina);
     return resultado;
   }
 }
