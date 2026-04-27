@@ -60,20 +60,17 @@ class TramiteController {
   };
 
   generarPdf = async (req, res, next) => {
-    try {
-      const { id } = req.params;
-      const pdfBuffer = await this.generarPdfUseCase.execute(id);
+  try {
+    const { id } = req.params;
+    const docBuffer = await this.generarPdfUseCase.execute(id);
 
-      res.setHeader("Content-Type", "application/pdf");
-      res.setHeader(
-        "Content-Disposition",
-        `attachment; filename="solicitud-${id}.pdf"`,
-      );
-      return res.send(pdfBuffer);
-    } catch (error) {
-      next(error);
-    }
-  };
+    res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+    res.setHeader('Content-Disposition', `attachment; filename="solicitud-${id}.docx"`);
+    return res.send(docBuffer);
+  } catch (error) {
+    next(error);
+  }
+}
 
   subirDocumentoFirmado = async (req, res, next) => {
     try {
