@@ -81,7 +81,6 @@ class TramiteController {
           ok: false,
           message: "Debe adjuntar un archivo",
         });
-        v;
       }
 
       const resultado = await this.subirDocumentoFirmadoUseCase.execute({

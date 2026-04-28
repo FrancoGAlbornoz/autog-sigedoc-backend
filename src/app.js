@@ -53,6 +53,12 @@ const GetTramitesByEstadoUseCase = require('./application/use-cases/get-tramites
 const PdfGeneratorService = require('./infrastructure/pdf/pdf-generator.service');
 const GenerarPdfUseCase = require('./application/use-cases/generar-pdf.use-case');
 
+// Caso de uso para enviar notificación por email 
+const SendGridEmailService = require('./infrastructure/email/sendgrid-email.service');
+const EnviarNotificacionEmailUseCase = require('./application/use-cases/enviar-notificacion-email.use-case');
+
+
+
 
 const app = express();
 
@@ -105,13 +111,21 @@ const tramiteRepository = new PostgresTramiteRepository(pool);
 const pdfGeneratorService = new PdfGeneratorService();
 const generarPdfUseCase = new GenerarPdfUseCase(tramiteRepository, pdfGeneratorService);
 
+const sendGridEmailService = new SendGridEmailService();
+const enviarNotificacionEmailUseCase = new EnviarNotificacionEmailUseCase(
+  tramiteRepository,
+  pdfGeneratorService,
+  sendGridEmailService
+);
+
 const createTramiteUseCase = new CreateTramiteUseCase(tramiteRepository);
 const getAllTramitesUseCase = new GetAllTramitesUseCase(tramiteRepository)
 const getTramiteByIdUseCase = new GetTramiteByIdUseCase(tramiteRepository)
 const firebaseStorageService = new FirebaseStorageService();
-const subirDocumentoFirmadoUseCase = new SubirDocumentoFirmadoUseCase(tramiteRepository, firebaseStorageService);
+const subirDocumentoFirmadoUseCase = new SubirDocumentoFirmadoUseCase(tramiteRepository, firebaseStorageService, enviarNotificacionEmailUseCase);
 const getTramitesByEstadoUseCase = new GetTramitesByEstadoUseCase(tramiteRepository);
 const tramiteController = new TramiteController(createTramiteUseCase, getAllTramitesUseCase, getTramiteByIdUseCase, generarPdfUseCase, subirDocumentoFirmadoUseCase, getTramitesByEstadoUseCase);
+
 
 
 
