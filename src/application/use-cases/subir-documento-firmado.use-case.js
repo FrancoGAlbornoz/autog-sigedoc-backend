@@ -13,7 +13,6 @@ class SubirDocumentoFirmadoUseCase {
       throw new Error(`Trámite con id ${tramiteId} no encontrado`);
     }
 
-    // Subir archivo a Firebase Storage
     const destino = `tramites/${tramiteId}/${fileName}`;
     const url = await this.firebaseStorageService.subirArchivo(
       fileBuffer,
@@ -21,15 +20,14 @@ class SubirDocumentoFirmadoUseCase {
       mimeType
     );
 
-    // Actualizar estado y url en la DB
     await this.tramiteRepository.updateEstadoYUrl(
       tramiteId,
       EstadoTramite.ENVIADO,
       url
     );
 
-    // Enviar email de notificación de forma asíncrona
-    this.enviarNotificacionEmailUseCase.execute(tramiteId).catch((err) => {
+    // IMPORTANTE: Ahora pasamos el buffer y el nombre para que lleguen al mail
+    this.enviarNotificacionEmailUseCase.execute(tramiteId, fileBuffer, fileName).catch((err) => {
       console.error(`[Email] Error al enviar notificación:`, err.message);
     });
 

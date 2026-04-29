@@ -1,28 +1,21 @@
+// src/application/use-cases/enviar-notificacion-email.use-case.js
 class EnviarNotificacionEmailUseCase {
-  constructor(tramiteRepository, pdfGeneratorService, emailService) {
+  constructor(tramiteRepository, emailService) {
     this.tramiteRepository = tramiteRepository;
-    this.pdfGeneratorService = pdfGeneratorService;
     this.emailService = emailService;
   }
 
-  async execute(tramiteId) {
-    // Buscar el trámite con sus detalles
+  async execute(tramiteId, archivoBuffer, fileName) {
     const resultado = await this.tramiteRepository.findById(tramiteId);
-    if (!resultado) {
-      throw new Error(`Trámite ${tramiteId} no encontrado`);
-    }
+    if (!resultado) throw new Error(`Trámite no encontrado`);
 
-    const { tramite, detalles, nombreOficina } = resultado;
-
-    // Generar el documento
-    const docBuffer = await this.pdfGeneratorService.generarNotaSolicitud(
-      tramite,
-      detalles,
-      nombreOficina
+    // Llama al adaptador de Resend con el archivo adjunto
+    await this.emailService.enviarNotificacion(
+      resultado.tramite, 
+      resultado.detalles, 
+      archivoBuffer, 
+      fileName
     );
-
-    // Enviar el email con el documento adjunto
-    await this.emailService.enviarNotificacion(tramite, detalles, docBuffer);
   }
 }
 
