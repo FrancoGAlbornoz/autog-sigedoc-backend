@@ -6,14 +6,14 @@ class CreateTramiteUseCase {
 
   async execute({ tramite, detalles }) {
     // Validar que venga al menos un detalle
-    if (!detalles || detalles.length === 0) {
-      throw new Error('Debe incluir al menos un solicitante en el trámite');
+    if (!detalles || detalles.length === 0 || detalles.length > 5) {
+      throw new Error('Debe incluir al menos un solicitante en el trámite y menos de 5');
     }
 
     const detallesConOficina = detalles.map((detalle) => ({
-    ...detalle,
-    id_oficina: tramite.id_oficina,
-  }));
+      ...detalle,
+      id_oficina: tramite.id_oficina,
+    }));
 
     // Guardar en la DB y devolver el trámite creado con sus detalles
     const resultado = await this.tramiteRepository.create(tramite, detallesConOficina);

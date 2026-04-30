@@ -6,7 +6,7 @@ class NodemailerEmailService {
       service: 'gmail',
       auth: {
         user: 'ticomputo0@gmail.com',
-        pass: process.env.GMAIL_APP_PASSWORD, // La clave de 16 letras
+        pass: process.env.GMAIL_APP_PASSWORD,
       },
     });
   }
@@ -15,7 +15,7 @@ class NodemailerEmailService {
     try {
       const mailOptions = {
         from: `"SAAYA" <${process.env.EMAIL_FROM}>`,
-        to: process.env.EMAIL_DESTINO, // Cambiá por el real en prod
+        to: process.env.EMAIL_DESTINO,
         subject: `SOLICITUD ALTA SIGEDOC - ${tramite.apellido_encargado.toUpperCase()}`,
         html: `
   <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #ddd; border-radius: 8px; overflow: hidden;">
