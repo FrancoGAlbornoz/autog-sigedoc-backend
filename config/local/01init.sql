@@ -50,7 +50,8 @@ CREATE TABLE "Detalle" (
   "mail" varchar NOT NULL,
   "telefono" varchar,
   "id_oficina" int NOT NULL,
-  "perfil" varchar
+  "perfil" varchar,
+  "condicion" varchar(50) -- <--- LO METEMOS DIRECTAMENTE ACÁ
 );
 
 -- Las relaciones se mantienen igual, el SERIAL no afecta a las FK

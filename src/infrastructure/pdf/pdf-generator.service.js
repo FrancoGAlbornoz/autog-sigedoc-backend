@@ -39,6 +39,7 @@ class PdfGeneratorService {
           telefono: d.telefono || '-',
           nombre_oficina: d.nombre_oficina || nombreOficina,
           perfil: d.perfil || '-',
+          condicion: d.condicion || '-', // <--- ESTA ES LA LÍNEA NUEVA
         })),
       });
 

@@ -48,8 +48,8 @@ class PostgresTramiteRepository extends TramiteRepository {
         const detalleQuery = `
           INSERT INTO "Detalle" (
             id_tramite, apellido, nombres, cuil,
-            mail, telefono, id_oficina, perfil
-          ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+            mail, telefono, id_oficina, perfil, condicion
+          ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
           RETURNING *
         `;
 
@@ -62,6 +62,7 @@ class PostgresTramiteRepository extends TramiteRepository {
           detalle.telefono || null,
           detalle.id_oficina,
           detalle.perfil || null,
+          detalle.condicion || null,
         ];
 
         const detalleResult = await client.query(detalleQuery, detalleValues);
@@ -156,5 +157,4 @@ class PostgresTramiteRepository extends TramiteRepository {
 
 }
 
-module.exports = PostgresTramiteRepository
-
+module.exports = PostgresTramiteRepository;

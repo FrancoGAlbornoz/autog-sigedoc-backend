@@ -13,6 +13,7 @@ class Detalle {
     id_oficina,
     nombre_oficina,  // ← agregá este
     perfil,
+    condicion,
   }) {
     this.id_detalle = id_detalle;
     this.id_tramite = id_tramite;
@@ -24,6 +25,7 @@ class Detalle {
     this.id_oficina = id_oficina;
     this.nombre_oficina = nombre_oficina || null;  // ← y este
     this.perfil = perfil || null;
+    this.condicion = condicion || null;
   }
 }
 
