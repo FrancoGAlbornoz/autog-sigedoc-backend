@@ -1,9 +1,41 @@
 INSERT INTO "Piso" (nombre_piso) VALUES ('Planta Baja'), ('Piso 1'), ('Piso 2');
 
 INSERT INTO "Oficina" (nombre_oficina, id_piso) VALUES 
+-- PLANTA BAJA (id_piso = 1)
+('Tesoreria', 1),
+('Mesa de Entrada', 1),
+('Liquidacion de Haberes', 1),
+('Secretaria Privada de Ganaderia y Alimentos', 1),
+('Direccion de Ganaderia y Alimentos', 1),
+('Tesoreria Tabaco', 1),
+('Subdireccion de Suelos', 1),
+('Automotor', 1),
+('Area Tecnica de Ganaderia y Alimentos', 1),
 ('Servicio Contable', 1),
-('Ordenamiento Territorial de Bosques Nativos', 2),
-('Administracion y despacho', 3);
+('Mayordomia', 1),
+('Viaticos', 1),
+('Departamento de Suelos', 1),
+('Contable (Ex Com)', 1),
+('Administracion de Personal', 1),
+('Compras', 1),
+
+-- PISO 1 (id_piso = 2)
+('Direccion de Alimentos', 2),
+('ANP', 2),
+('Subdireccion de Alimentos', 2),
+('Direccion de Flora y Fauna', 2),
+('Jurdico', 2),
+('Direccion de Industria y Comercio Exterior', 2),
+('OTBN', 2),
+('Cartografia', 2),
+
+-- PISO 2 (id_piso = 3)
+('Jefa De Despacho', 3),
+('Despacho', 3),
+('Oficina SubSecretario', 3),
+('Secretaria Privada', 3),
+('Administracion y Despacho', 3),
+('Director FFSyS', 3);
 
 INSERT INTO "SistemaExterno" (nombre_sistema) VALUES ('SIGEDOC'), ('SAFYC'), ('SIAL');
 

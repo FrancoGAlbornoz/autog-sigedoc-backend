@@ -14,16 +14,16 @@ class NodemailerEmailService {
   async enviarNotificacion(tramite, detalles, archivoBuffer, fileName) {
     try {
       const mailOptions = {
-        from: `"SAAYA" <${process.env.EMAIL_FROM}>`,
+        from: `"SUBSECRETARIA DE DESARROLLO PRODUCTIVO - AREA SISTEMAS" <${process.env.EMAIL_FROM}>`,
         to: process.env.EMAIL_DESTINO,
-        subject: `SOLICITUD ALTA SIGEDOC - ${tramite.apellido_encargado.toUpperCase()}`,
+        subject: `SOLICITUD ALTA SIGEDOC - }`,
         html: `
   <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #ddd; border-radius: 8px; overflow: hidden;">
     
     <!-- Header -->
     <div style="background-color: #1a3a5c; padding: 24px; text-align: center;">
       <h1 style="color: white; margin: 0; font-size: 18px; letter-spacing: 1px;">
-        SECRETARÍA DE ESTADO DE GESTIÓN PÚBLICA Y PLANEAMIENTO
+        SUBSECRETARIA DE DESARROLLO PRODUCTIVO
       </h1>
       <p style="color: #a8c4e0; margin: 6px 0 0 0; font-size: 13px;">
         Sistema de Autogestión de Accesos — SiGeDoc
