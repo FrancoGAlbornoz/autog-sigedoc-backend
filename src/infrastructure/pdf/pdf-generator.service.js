@@ -31,6 +31,7 @@ class PdfGeneratorService {
         cargo: tramite.cargo || '-',
         telefono: tramite.telefono || '-',
         email: tramite.email || '-',
+        nombre_oficina: nombreOficina,
         detalles: detalles.map((d) => ({
           apellido: d.apellido,
           nombres: d.nombres,
