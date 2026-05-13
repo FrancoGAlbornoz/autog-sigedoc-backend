@@ -31,41 +31,58 @@ function validarCrearTramite(req, res, next) {
     });
   }
 
-  // Validar detalles
-  if (!detalles || !Array.isArray(detalles) || detalles.length === 0) {
-    return res.status(400).json({
-      ok: false,
-      message: 'Debe incluir al menos un solicitante en el trámite',
-    });
+  // --- NUEVA LÓGICA DE VALIDACIÓN CONDICIONAL ---
+  // Solo validamos 'detalles' si es Alta (1) o Baja (2)
+  if (id_tipo_tramite === 1 || id_tipo_tramite === 2) {
+
+    if (!detalles || !Array.isArray(detalles) || detalles.length === 0) {
+      return res.status(400).json({
+        ok: false,
+        message: 'Debe incluir al menos un solicitante en el trámite',
+      });
+    }
+
+    // Validar campos obligatorios de cada detalle
+    for (let i = 0; i < detalles.length; i++) {
+      const detalle = detalles[i];
+
+      // Exigimos nombres y apellido siempre para Alta/Baja
+      if (!detalle.apellido || !detalle.nombres) {
+        return res.status(400).json({
+          ok: false,
+          message: `El detalle ${i + 1} debe tener apellido y nombres`,
+        });
+      }
+
+      // Si es Alta (1), exigimos CUIL y Mail
+      if (id_tipo_tramite === 1) {
+        if (!detalle.cuil) {
+          return res.status(400).json({
+            ok: false,
+            message: `El detalle ${i + 1} debe tener CUIL`,
+          });
+        }
+        if (!detalle.mail) {
+          return res.status(400).json({
+            ok: false,
+            message: `El detalle ${i + 1} debe tener mail`,
+          });
+        }
+      }
+
+      // Si es Baja (2), exigiremos 'usuario_sigedoc'
+      if (id_tipo_tramite === 2) {
+        if (!detalle.usuario_sigedoc) {
+          return res.status(400).json({
+            ok: false,
+            message: `El detalle ${i + 1} debe tener el usuario de Sigedoc`,
+          });
+        }
+      }
+    }
   }
 
-  // Validar campos obligatorios de cada detalle
-  for (let i = 0; i < detalles.length; i++) {
-    const detalle = detalles[i];
-
-    if (!detalle.apellido || !detalle.nombres) {
-      return res.status(400).json({
-        ok: false,
-        message: `El detalle ${i + 1} debe tener apellido y nombres`,
-      });
-    }
-
-    if (!detalle.cuil) {
-      return res.status(400).json({
-        ok: false,
-        message: `El detalle ${i + 1} debe tener CUIL`,
-      });
-    }
-
-    if (!detalle.mail) {
-      return res.status(400).json({
-        ok: false,
-        message: `El detalle ${i + 1} debe tener mail`,
-      });
-    }
-
-  }
-
+  // Si pasa todas las validaciones pertinentes, sigue su curso
   next();
 }
 

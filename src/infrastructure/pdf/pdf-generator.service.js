@@ -12,7 +12,7 @@ class PdfGeneratorService {
       if (tramite.id_tipo_tramite === 2) {
         nombreArchivoPlantilla = 'modelo_baja.docx';
       } else if (tramite.id_tipo_tramite === 3) {
-        nombreArchivoPlantilla = 'modelo_instalacion.docx';
+        nombreArchivoPlantilla = 'modelo_inst_certificados.docx';
       }
 
       // Asegurate de tener estos 3 archivos creados en la misma carpeta que este script
