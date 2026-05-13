@@ -6,8 +6,17 @@ const Docxtemplater = require('docxtemplater');
 class PdfGeneratorService {
   async generarNotaSolicitud(tramite, detalles, nombreOficina) {
     try {
-      // Asegurate de que el nombre coincida EXACTO con el archivo en el disco
-      const plantillaPath = path.join(__dirname, 'modelo_de_nota.docx');
+      // 1. Elegimos la plantilla dinámicamente según el id_tipo_tramite
+      let nombreArchivoPlantilla = 'modelo_de_nota.docx'; // Alta (1) por defecto
+
+      if (tramite.id_tipo_tramite === 2) {
+        nombreArchivoPlantilla = 'modelo_baja.docx';
+      } else if (tramite.id_tipo_tramite === 3) {
+        nombreArchivoPlantilla = 'modelo_instalacion.docx';
+      }
+
+      // Asegurate de tener estos 3 archivos creados en la misma carpeta que este script
+      const plantillaPath = path.join(__dirname, nombreArchivoPlantilla);
 
       if (!fs.existsSync(plantillaPath)) {
         throw new Error(`No se encontró la plantilla en: ${plantillaPath}`);
@@ -40,7 +49,8 @@ class PdfGeneratorService {
           telefono: d.telefono || '-',
           nombre_oficina: d.nombre_oficina || nombreOficina,
           perfil: d.perfil || '-',
-          condicion: d.condicion || '-', // <--- ESTA ES LA LÍNEA NUEVA
+          condicion: d.condicion || '-',
+          usuario_sigedoc: d.usuario_sigedoc || '-', // <--- ESTA ES LA LÍNEA NUEVA PARA LA BAJA
         })),
       });
 

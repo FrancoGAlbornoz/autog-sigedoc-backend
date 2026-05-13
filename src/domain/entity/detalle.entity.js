@@ -14,6 +14,8 @@ class Detalle {
     nombre_oficina,  // ← agregá este
     perfil,
     condicion,
+    usuario_sigedoc, //para la baja
+
   }) {
     this.id_detalle = id_detalle;
     this.id_tramite = id_tramite;
@@ -26,6 +28,7 @@ class Detalle {
     this.nombre_oficina = nombre_oficina || null;  // ← y este
     this.perfil = perfil || null;
     this.condicion = condicion || null;
+    this.usuario_sigedoc = usuario_sigedoc || null;
   }
 }
 

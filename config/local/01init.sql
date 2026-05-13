@@ -51,7 +51,8 @@ CREATE TABLE "Detalle" (
   "telefono" varchar,
   "id_oficina" int NOT NULL,
   "perfil" varchar,
-  "condicion" varchar(50) -- <--- LO METEMOS DIRECTAMENTE ACÁ
+  "condicion" varchar(50), 
+  "usuario_sigedoc" varchar(100) -- <--- NUEVA COLUMNA PARA LA BAJA ACÁ
 );
 
 -- Las relaciones se mantienen igual, el SERIAL no afecta a las FK
