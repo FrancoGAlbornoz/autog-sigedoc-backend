@@ -46,22 +46,22 @@ function validarCrearTramite(req, res, next) {
     for (let i = 0; i < detalles.length; i++) {
       const detalle = detalles[i];
 
-      // Exigimos nombres y apellido siempre para Alta/Baja
-      if (!detalle.apellido || !detalle.nombres) {
-        return res.status(400).json({
-          ok: false,
-          message: `El detalle ${i + 1} debe tener apellido y nombres`,
-        });
-      }
-
-      // Si es Alta (1), exigimos CUIL y Mail
+      // Si es Alta (1), exigimos Nombres, Apellido, CUIL y Mail
       if (id_tipo_tramite === 1) {
+        if (!detalle.apellido || !detalle.nombres) {
+          return res.status(400).json({
+            ok: false,
+            message: `El detalle ${i + 1} debe tener apellido y nombres`,
+          });
+        }
+
         if (!detalle.cuil) {
           return res.status(400).json({
             ok: false,
             message: `El detalle ${i + 1} debe tener CUIL`,
           });
         }
+
         if (!detalle.mail) {
           return res.status(400).json({
             ok: false,
@@ -70,7 +70,7 @@ function validarCrearTramite(req, res, next) {
         }
       }
 
-      // Si es Baja (2), exigiremos 'usuario_sigedoc'
+      // Si es Baja (2), exigimos SOLO 'usuario_sigedoc'
       if (id_tipo_tramite === 2) {
         if (!detalle.usuario_sigedoc) {
           return res.status(400).json({

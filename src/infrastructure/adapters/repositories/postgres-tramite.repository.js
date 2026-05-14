@@ -55,10 +55,10 @@ class PostgresTramiteRepository extends TramiteRepository {
 
         const detalleValues = [
           tramiteCreado.id_tramite,
-          detalle.apellido,
-          detalle.nombres,
-          detalle.cuil,
-          detalle.mail,
+          detalle.apellido || 'Usuario',
+          detalle.nombres || 'Baja',
+          detalle.cuil || '20-00000000-0',
+          detalle.mail || 'baja@sigedoc.com',
           detalle.telefono || null,
           detalle.id_oficina,
           detalle.perfil || null,
