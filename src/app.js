@@ -1,4 +1,5 @@
 const express = require('express');
+const rateLimit = require('express-rate-limit');
 const cors = require('cors');
 const swaggerUi = require('swagger-ui-express');
 const swaggerSpec = require('./swagger.config');
@@ -46,9 +47,32 @@ const EnviarNotificacionEmailUseCase = require('./application/use-cases/enviar-n
 
 const app = express();
 
-app.use(cors({ origin: process.env.FRONTEND_URL || 'http://localhost:5173' }));
+// --- 1. CONFIGURACIÓN DE CORS ESTRICTO ---
+const corsOptions = {
+  origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Solo estos métodos están permitidos
+  allowedHeaders: ['Content-Type', 'Authorization'], // Solo estos headers
+  optionsSuccessStatus: 200 // Para compatibilidad
+};
+app.use(cors(corsOptions));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// --- 2. CONFIGURACIÓN DE RATE LIMITING ---
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutos
+  max: 30, // Límite de 30 peticiones por IP cada 15 min
+  message: {
+    ok: false,
+    message: 'Demasiadas peticiones desde esta IP. Por favor, intentá de nuevo en 15 minutos.'
+  },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+// Aplicamos el escudo anti-spam SOLO a las rutas de la API (dejamos libre /health y docs por si acaso)
+app.use('/api', limiter);
 
 app.get('/health', (_req, res) => res.json({ status: 'ok' }));
 app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
@@ -62,7 +86,7 @@ app.use('/api/pisos', createPisoRouter(pisoController));
 // Rutas Oficinas
 const oficinaRepository = new PostgresOficinaRepository(pool);
 const oficinaController = new OficinaController(
-  new GetOficinasUseCase(oficinaRepository), 
+  new GetOficinasUseCase(oficinaRepository),
   new GetOficinasByPisoUseCase(oficinaRepository)
 );
 app.use('/api/oficinas', createOficinaRouter(oficinaController));
