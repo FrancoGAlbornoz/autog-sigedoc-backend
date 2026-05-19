@@ -1,0 +1,20 @@
+# 1. Imagen base de Node
+FROM node:18-alpine
+
+# 2. Carpeta de trabajo dentro del contenedor
+WORKDIR /app
+
+# 3. Copiamos solo los archivos de dependencias primero
+COPY package*.json ./
+
+# 4. Instalamos las librerías
+RUN npm install
+
+# 5. Copiamos todo el resto del código
+COPY . .
+
+# 6. Exponemos el puerto de tu API
+EXPOSE 3001
+
+# 7. Comando para levantar el server
+CMD ["node", "index.js"]
