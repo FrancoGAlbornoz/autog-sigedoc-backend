@@ -59,6 +59,12 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// --- SERVIR ARCHIVOS ESTÁTICOS ---
+// Esto permite que el frontend acceda a los PDFs usando URLs como:
+// http://localhost:3001/storage/tramites/1/firmado.pdf
+const basePath = process.env.LOCAL_STORAGE_PATH || '/home/sistema/storage/autogestion';
+app.use('/storage', express.static(basePath));
+
 // --- 2. CONFIGURACIÓN DE RATE LIMITING ---
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutos

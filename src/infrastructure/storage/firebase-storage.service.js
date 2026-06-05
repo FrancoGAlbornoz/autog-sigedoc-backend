@@ -1,37 +1,29 @@
-const { initializeApp, getApps } = require('firebase-admin/app');
-const { getStorage } = require('firebase-admin/storage');
-
-// Solo inicializa si no hay una app ya inicializada
-if (getApps().length === 0) {
-  initializeApp({
-    storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
-  });
-}
-
-// Apuntar al emulador en desarrollo
-if (process.env.NODE_ENV === 'development') {
-  process.env.FIREBASE_STORAGE_EMULATOR_HOST = process.env.FIREBASE_EMULATOR_HOST;
-}
+const fs = require('fs/promises');
+const path = require('path');
 
 class FirebaseStorageService {
   /**
-   * Sube un archivo al Storage y devuelve la URL pública
+   * Guarda un archivo localmente y devuelve la URL HTTP pública
    * @param {Buffer} fileBuffer
-   * @param {string} destino - ruta dentro del bucket ej: "tramites/1/firmado.pdf"
+   * @param {string} destino - ruta relativa ej: "tramites/1/firmado.pdf"
    * @param {string} mimeType
-   * @returns {Promise<string>} URL del archivo
+   * @returns {Promise<string>} URL pública para acceder al archivo
    */
   async subirArchivo(fileBuffer, destino, mimeType) {
-    const bucket = getStorage().bucket();
-    const archivo = bucket.file(destino);
+    const basePath = process.env.LOCAL_STORAGE_PATH || '/home/sistema/storage/autogestion';
+    const rutaFinal = path.join(basePath, destino);
 
-    await archivo.save(fileBuffer, {
-      metadata: { contentType: mimeType },
-      public: true,
-    });
+    // Asegurar que el directorio exista
+    await fs.mkdir(path.dirname(rutaFinal), { recursive: true });
 
-    const url = `http://${process.env.FIREBASE_EMULATOR_HOST}/v0/b/${process.env.FIREBASE_STORAGE_BUCKET}/o/${encodeURIComponent(destino)}?alt=media`;
-    return url;
+    // Guardar el archivo en el sistema local
+    await fs.writeFile(rutaFinal, fileBuffer);
+
+    // Construir y devolver la URL HTTP
+    const backendUrl = process.env.BACKEND_URL || 'http://localhost:3001';
+    const urlPublica = `${backendUrl}/storage/${destino}`;
+
+    return urlPublica;
   }
 }
 
